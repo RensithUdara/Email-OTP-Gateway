@@ -3,15 +3,20 @@ import random
 import smtplib
 from email.message import EmailMessage
 import time
+import os
+from dotenv import load_dotenv
+
+# Load .env variables
+load_dotenv()
 
 app = Flask(__name__)
 
 # In-memory OTP store: {email: (otp, timestamp)}
 otp_store = {}
 
-# Configuration
-SENDER_EMAIL = "your@gmail.com"
-SENDER_PASSWORD = "your_app_password"  # Use App Password if using Gmail
+# Configuration from .env
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 OTP_EXPIRY_SECONDS = 300  # 5 minutes
 
 def generate_otp():
