@@ -97,4 +97,6 @@ def verify_otp():
     return jsonify({"message": "OTP verified successfully!"}), 200
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render will set PORT
+    app.run(host="0.0.0.0", port=port)
+
