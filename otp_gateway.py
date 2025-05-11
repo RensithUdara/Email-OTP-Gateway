@@ -24,8 +24,26 @@ def generate_otp():
 
 def send_otp_email(to_email, otp):
     msg = EmailMessage()
+    
+    # Plain text fallback
     msg.set_content(f"Your OTP code is: {otp}")
-    msg['Subject'] = 'Your OTP Code'
+
+    # HTML content
+    html_content = f"""
+    <html>
+      <body style="font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px;">
+        <div style="max-width: 500px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+          <h2 style="color: #333;">Your OTP Code</h2>
+          <p style="font-size: 16px; color: #555;">Use the following code to verify your email:</p>
+          <h1 style="color: #007bff; font-size: 36px; letter-spacing: 2px;">{otp}</h1>
+          <p style="color: #888;">This code is valid for 5 minutes. Do not share it with anyone.</p>
+        </div>
+      </body>
+    </html>
+    """
+    msg.add_alternative(html_content, subtype='html')
+
+    msg['Subject'] = '🔐 Your OTP Verification Code'
     msg['From'] = SENDER_EMAIL
     msg['To'] = to_email
 
